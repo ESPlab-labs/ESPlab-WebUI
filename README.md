@@ -1,64 +1,56 @@
 # ESPlab WebUI
 
-![license](https://img.shields.io/badge/license-MIT-blue)
-![deps](https://img.shields.io/badge/deps-stdlib%20only-brightgreen)
-![python](https://img.shields.io/badge/python-3.8%2B-blue)
+[![release](https://img.shields.io/github/v/release/ESPlab-labs/ESPlab-WebUI)](https://github.com/ESPlab-labs/ESPlab-WebUI/releases)
+[![license](https://img.shields.io/github/license/ESPlab-labs/ESPlab-WebUI)](LICENSE)
 
-**The dashboard service for [ESPlab](https://github.com/ESPlab-labs/ESPlab)
-— many boards, one computer.**
+The web dashboard for [ESPlab](https://github.com/ESPlab-labs/ESPlab)
+clusters. Point a browser at the machine the boards are plugged into and
+see the whole cluster — boards, jobs, storage and the machine log — and
+drive it: submit jobs, store data, watch work move between boards.
 
-Point a browser at the machine and see the whole cluster: boards, jobs,
-storage, machine log — and drive it.
 [ESP On Demand](https://github.com/ESPlab-labs/ESP-On-Demand), the media
-server for ESPlab, runs on top of this UI: it needs this service's
-console-backed API to reach the cluster.
+server for ESPlab, runs on top of this dashboard.
 
-## What it is
+[Releases](https://github.com/ESPlab-labs/ESPlab-WebUI/releases) ·
+[Issues](https://github.com/ESPlab-labs/ESPlab-WebUI/issues)
 
-On real hardware this is served by the coordinator board from pooled flash
-(M6). On a dev machine (and in CI) it fronts one virtual board's serial
-console. Same HTTP surface either way:
+## Features
 
-| endpoint | what it does |
-|---|---|
-| `GET /` | dashboard page |
-| `GET /api/all` | machine snapshot: status, boards, jobs, log |
-| `GET /api/kv?k=key` | read from the machine's pooled storage |
-| `POST /api/kv` | store a key/value |
-| `POST /api/job` | submit a job (hello, search) |
-| `GET /api/frame?job=ID` | **ESP On Demand**: fetch a frame job's decoded bands |
-| `GET /api/cmd?c=...` | raw console escape hatch (powers everything above) |
+- **Live cluster view** — boards with chip type and capacity, running jobs,
+  pooled storage, machine log.
+- **Drive the machine** — submit jobs and storage writes from the browser.
+- **Real hardware or virtual boards** — with `ESPLAB_SERIAL=/dev/ttyUSB0`
+  it talks to a real coordinator's USB serial console; without it, it
+  spawns a virtual board and joins a local test cluster.
+- **No dependencies** — a single Python file, standard library only.
 
-Stdlib only: no pip, no framework, runs on anything with Python 3.
-
-## Running it — full walkthrough
-
-The complete end-to-end instructions (virtual boards, real boards, encoding
-a clip, playing video) are in
-[ESP-On-Demand's QUICKSTART](https://github.com/ESPlab-labs/ESP-On-Demand/blob/main/QUICKSTART.md).
-The WebUI part is one command — after the machine is up:
+## Install
 
 ```bash
-python3 tools/webui/webui.py          # dashboard on :8080
+git clone https://github.com/ESPlab-labs/ESPlab
+cd ESPlab
+python3 tools/webui/webui.py          # dashboard on http://localhost:8080
 ```
 
-The service spawns its own virtual board (id 09) which joins the machine —
-start other vboards or flash real boards and they appear in the dashboard.
-
-With ESP On Demand running elsewhere:
+Against a real cluster (boards flashed per the
+[hardware guide](https://github.com/ESPlab-labs/ESPlab/blob/main/docs/HARDWARE.md),
+pyserial required):
 
 ```bash
-ESPLAB_EOD_URL=http://<machine>:8090 python3 tools/webui/webui.py
-# the dashboard then links to the video service
+ESPLAB_SERIAL=/dev/ttyUSB0 python3 tools/webui/webui.py
 ```
 
-## Console-backed by design
+A standalone copy of this service also ships in this repo's
+[Releases](https://github.com/ESPlab-labs/ESPlab-WebUI/releases) for use
+without the full ESPlab checkout.
 
-The service drives the machine **through the same serial console a human
-types into** — `status`, `nodes`, `jobs`, `submit ...`, `put`, `get`,
-`jobdump`. That is deliberate: the web UI has no privileged path, cannot do
-anything the serial front panel can't, and every parser stays trivial. When
-a new command exists, the web UI gets it for free via `/api/cmd`.
+## Notes
+
+The dashboard speaks the same serial console a person would type into — it
+has no privileged path to the boards and can't do anything the console
+can't. On the dashboard's startup it asks the cluster to re-run its
+election so the strongest board coordinates; this keeps job status visible
+to the dashboard (and to ESP On Demand) regardless of join order.
 
 ## License
 
