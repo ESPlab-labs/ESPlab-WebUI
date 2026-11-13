@@ -1,13 +1,17 @@
 # ESPlab WebUI
 
+![license](https://img.shields.io/badge/license-MIT-blue)
+![deps](https://img.shields.io/badge/deps-stdlib%20only-brightgreen)
+![python](https://img.shields.io/badge/python-3.8%2B-blue)
+
 **The dashboard service for [ESPlab](https://github.com/TycoonCoder/ESPlab)
 — many boards, one computer.**
 
 Point a browser at the machine and see the whole cluster: boards, jobs,
-storage, machine log — and drive it. ESP On Demand
-([ESP-On-Demand](https://github.com/TycoonCoder/ESP-On-Demand)), the video
-service, runs on top of this UI: it needs this service's console-backed API
-to reach the cluster.
+storage, machine log — and drive it.
+[ESP On Demand](https://github.com/TycoonCoder/ESP-On-Demand), the media
+server for ESPlab, runs on top of this UI: it needs this service's
+console-backed API to reach the cluster.
 
 ## What it is
 
@@ -48,6 +52,10 @@ ESPLAB_EOD_URL=http://<machine>:8090 python3 tools/webui/webui.py
 
 The service drives the machine **through the same serial console a human
 types into** — `status`, `nodes`, `jobs`, `submit ...`, `put`, `get`,
-`jobdump`. That is deliberate: the web UI has no privileged path, cannot
-do anything the serial front panel can't, and every parser stays trivial.
-When a new command exists, the web UI gets it for free via `/api/cmd`.
+`jobdump`. That is deliberate: the web UI has no privileged path, cannot do
+anything the serial front panel can't, and every parser stays trivial. When
+a new command exists, the web UI gets it for free via `/api/cmd`.
+
+## License
+
+[MIT](LICENSE)
