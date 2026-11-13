@@ -31,10 +31,14 @@ console. Same HTTP surface either way:
 
 Stdlib only: no pip, no framework, runs on anything with Python 3.
 
-## Running it
+## Running it — full walkthrough
+
+The complete end-to-end instructions (virtual boards, real boards, encoding
+a clip, playing video) are in
+[ESP-On-Demand's QUICKSTART](https://github.com/TycoonCoder/ESP-On-Demand/blob/main/QUICKSTART.md).
+The WebUI part is one command — after the machine is up:
 
 ```bash
-git clone https://github.com/TycoonCoder/ESPlab && cd ESPlab && make
 python3 tools/webui/webui.py          # dashboard on :8080
 ```
 
