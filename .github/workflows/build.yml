@@ -1,0 +1,22 @@
+# ESPlab WebUI — CI: the service parses and stays stdlib-only
+name: build
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: syntax
+        run: |
+          python3 -m py_compile webui.py
+      - name: repo hygiene
+        run: |
+          test -f README.md
+          test -f LICENSE
+          grep -q "ESPlab" README.md
