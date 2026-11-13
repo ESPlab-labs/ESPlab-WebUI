@@ -4,12 +4,12 @@
 ![deps](https://img.shields.io/badge/deps-stdlib%20only-brightgreen)
 ![python](https://img.shields.io/badge/python-3.8%2B-blue)
 
-**The dashboard service for [ESPlab](https://github.com/TycoonCoder/ESPlab)
+**The dashboard service for [ESPlab](https://github.com/ESPlab-labs/ESPlab)
 — many boards, one computer.**
 
 Point a browser at the machine and see the whole cluster: boards, jobs,
 storage, machine log — and drive it.
-[ESP On Demand](https://github.com/TycoonCoder/ESP-On-Demand), the media
+[ESP On Demand](https://github.com/ESPlab-labs/ESP-On-Demand), the media
 server for ESPlab, runs on top of this UI: it needs this service's
 console-backed API to reach the cluster.
 
@@ -35,7 +35,7 @@ Stdlib only: no pip, no framework, runs on anything with Python 3.
 
 The complete end-to-end instructions (virtual boards, real boards, encoding
 a clip, playing video) are in
-[ESP-On-Demand's QUICKSTART](https://github.com/TycoonCoder/ESP-On-Demand/blob/main/QUICKSTART.md).
+[ESP-On-Demand's QUICKSTART](https://github.com/ESPlab-labs/ESP-On-Demand/blob/main/QUICKSTART.md).
 The WebUI part is one command — after the machine is up:
 
 ```bash
